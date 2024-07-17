@@ -1,6 +1,6 @@
-use std::rc::Rc;
 use std::cell::RefCell;
 use std::collections::HashMap;
+use std::rc::Rc;
 
 #[derive(Debug, PartialEq, Eq)]
 pub struct TreeNode {
@@ -8,30 +8,36 @@ pub struct TreeNode {
     pub left: Option<Rc<RefCell<TreeNode>>>,
     pub right: Option<Rc<RefCell<TreeNode>>>,
 }
- 
+
 impl TreeNode {
     #[inline]
     pub fn new(val: i32) -> Self {
         TreeNode {
             val,
             left: None,
-            right: None
+            right: None,
         }
     }
-
 }
 
-pub fn del_nodes(root: Option<Rc<RefCell<TreeNode>>>, to_delete: Vec<i32>) -> Vec<Option<Rc<RefCell<TreeNode>>>> {
+pub fn del_nodes(
+    root: Option<Rc<RefCell<TreeNode>>>,
+    to_delete: Vec<i32>,
+) -> Vec<Option<Rc<RefCell<TreeNode>>>> {
     let actual_root = root.unwrap();
+    let root_val = actual_root.borrow().val;
     let mut to_visit = vec![actual_root.clone()];
     let mut roots = vec![];
     let mut del_map: HashMap<i32, bool> = HashMap::new();
+    let mut push_root = true;
     for delete in &to_delete {
         del_map.insert(*delete, true);
+        if delete == &root_val {
+            push_root = false;
+        }
     }
-
-    if !del_map.contains_key(&actual_root.borrow().val) {
-        roots.push(Some(actual_root));
+    if push_root {
+        roots.push(Some(actual_root.clone()))
     }
 
     while let Some(node) = to_visit.pop() {
@@ -66,6 +72,6 @@ pub fn del_nodes(root: Option<Rc<RefCell<TreeNode>>>, to_delete: Vec<i32>) -> Ve
                 }
             }
         }
-    };
+    }
     roots
 }
