@@ -1,15 +1,11 @@
-mod lc_2196;
+mod lc_2096;
 
-use lc_2196::create_binary_tree;
+use lc_2096::{TreeNode, get_directions};
+use std::rc::Rc;
+use std::cell::RefCell;
 
 fn main() {
-    let descriptions = vec![
-        vec![85, 82, 1],
-        vec![74, 85, 1],
-        vec![39, 70, 0],
-        vec![82, 38, 1],
-        vec![74, 39, 0],
-        vec![39, 13, 1],
-    ];
-    create_binary_tree(descriptions);
+    let mut root_node = TreeNode::new(1);
+    root_node.left = Some(Rc::new(RefCell::new(TreeNode::new(2))));
+    get_directions(Some(Rc::new(RefCell::new(root_node))), 2, 1);
 }
