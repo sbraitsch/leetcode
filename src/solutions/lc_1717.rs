@@ -1,10 +1,10 @@
 pub fn maximum_gain(s: String, x: i32, y: i32) -> i32 {
-    if x > y {
+    return if x > y {
         let (first_pass_score, pass_stack) = remove_pat(s.as_bytes(), (b'a', b'b'), x);
-        return first_pass_score + remove_pat(&pass_stack, (b'b', b'a'), y).0;
+        first_pass_score + remove_pat(&pass_stack, (b'b', b'a'), y).0
     } else {
         let (first_pass_score, pass_stack) = remove_pat(s.as_bytes(), (b'b', b'a'), y);
-        return first_pass_score + remove_pat(&pass_stack, (b'a', b'b'), x).0;
+        first_pass_score + remove_pat(&pass_stack, (b'a', b'b'), x).0
     }
 }
 

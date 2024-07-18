@@ -1,22 +1,5 @@
 use std::{cell::RefCell, collections::HashMap, rc::Rc};
-
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-}
+use crate::structs::tree_node::TreeNode;
 
 pub fn create_binary_tree(descriptions: Vec<Vec<i32>>) -> Option<Rc<RefCell<TreeNode>>> {
     let mut tree_map: HashMap<i32, Rc<RefCell<TreeNode>>> = HashMap::new();
