@@ -1,60 +1,65 @@
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
+use crate::structs::solution::Solution;
 use crate::structs::tree_node::TreeNode;
 
-pub fn del_nodes(
-    root: Option<Rc<RefCell<TreeNode>>>,
-    to_delete: Vec<i32>,
-) -> Vec<Option<Rc<RefCell<TreeNode>>>> {
-    let actual_root = root.unwrap();
-    let root_val = actual_root.borrow().val;
-    let mut to_visit = vec![actual_root.clone()];
-    let mut roots = vec![];
-    let mut del_map: HashMap<i32, bool> = HashMap::new();
-    let mut push_root = true;
-    for delete in &to_delete {
-        del_map.insert(*delete, true);
-        if delete == &root_val {
-            push_root = false;
+impl Solution {
+    /// 1110
+    pub fn del_nodes(
+        root: Option<Rc<RefCell<TreeNode>>>,
+        to_delete: Vec<i32>,
+    ) -> Vec<Option<Rc<RefCell<TreeNode>>>> {
+        let actual_root = root.unwrap();
+        let root_val = actual_root.borrow().val;
+        let mut to_visit = vec![actual_root.clone()];
+        let mut roots = vec![];
+        let mut del_map: HashMap<i32, bool> = HashMap::new();
+        let mut push_root = true;
+        for delete in &to_delete {
+            del_map.insert(*delete, true);
+            if delete == &root_val {
+                push_root = false;
+            }
         }
-    }
-    if push_root {
-        roots.push(Some(actual_root.clone()))
-    }
+        if push_root {
+            roots.push(Some(actual_root.clone()))
+        }
 
-    while let Some(node) = to_visit.pop() {
-        let mut n = node.borrow_mut();
+        while let Some(node) = to_visit.pop() {
+            let mut n = node.borrow_mut();
 
-        if del_map.contains_key(&n.val) {
-            if let Some(left) = n.left.take() {
-                if !del_map.contains_key(&left.borrow().val) {
-                    roots.push(Some(left.clone()));
-                }
-                to_visit.push(left.clone());
-            }
-            if let Some(right) = n.right.take() {
-                if !del_map.contains_key(&right.borrow().val) {
-                    roots.push(Some(right.clone()));
-                }
-                to_visit.push(right.clone());
-            }
-        } else {
-            if let Some(left) = &n.left {
-                if del_map.contains_key(&left.borrow().val) {
-                    to_visit.push(n.left.take().expect("Hmm"));
-                } else {
+            if del_map.contains_key(&n.val) {
+                if let Some(left) = n.left.take() {
+                    if !del_map.contains_key(&left.borrow().val) {
+                        roots.push(Some(left.clone()));
+                    }
                     to_visit.push(left.clone());
                 }
-            }
-            if let Some(right) = &n.right {
-                if del_map.contains_key(&right.borrow().val) {
-                    to_visit.push(n.right.take().expect("Hmm"));
-                } else {
+                if let Some(right) = n.right.take() {
+                    if !del_map.contains_key(&right.borrow().val) {
+                        roots.push(Some(right.clone()));
+                    }
                     to_visit.push(right.clone());
+                }
+            } else {
+                if let Some(left) = &n.left {
+                    if del_map.contains_key(&left.borrow().val) {
+                        to_visit.push(n.left.take().expect("Hmm"));
+                    } else {
+                        to_visit.push(left.clone());
+                    }
+                }
+                if let Some(right) = &n.right {
+                    if del_map.contains_key(&right.borrow().val) {
+                        to_visit.push(n.right.take().expect("Hmm"));
+                    } else {
+                        to_visit.push(right.clone());
+                    }
                 }
             }
         }
+        roots
     }
-    roots
 }
+
