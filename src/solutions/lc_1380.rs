@@ -2,14 +2,16 @@ use crate::structs::solution::Solution;
 
 impl Solution {
     pub fn lucky_numbers(matrix: Vec<Vec<i32>>) -> Vec<i32> {
-        let col_max: Vec<i32> = (0..matrix[0].len())
-            .map(|c| matrix.iter().map(|row| row[c]).max().unwrap())
-            .collect();
-
+        let mut lucky = vec![];
         matrix
             .iter()
-            .map(|row| *row.iter().min().unwrap())
-            .filter(|v| col_max.contains(v))
-            .collect()
+            .map(|row| row.iter().enumerate().map(|(i, v)| (*v, i)).min().unwrap())
+            .max()
+            .inspect(|(val, c_id)| {
+                if !matrix.iter().any(|row| row[*c_id] > *val) {
+                    lucky.push(*val);
+                }
+            });
+        lucky
     }
 }
