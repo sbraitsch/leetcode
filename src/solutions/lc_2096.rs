@@ -35,7 +35,7 @@ impl Solution {
         }
 
         let mut divergence =  0;
-        for (c1, c2) in &to_start.iter().zip(&to_dest.iter()) {
+        for (c1, c2) in to_start.iter().zip(to_dest.iter()) {
             if c1 != c2 {
                 break;
             }
