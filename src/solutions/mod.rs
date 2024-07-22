@@ -5,3 +5,4 @@ pub mod lc_2096;
 pub mod lc_2196;
 pub mod lc_1380;
 pub mod lc_1605;
+pub mod lc_2418;
