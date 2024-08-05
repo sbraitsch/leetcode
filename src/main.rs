@@ -1,7 +1,8 @@
+#![allow(unused)]
 use structs::solution::Solution;
 mod solutions;
 mod structs;
 fn main() {
-    let res = Solution::can_be_equal(vec![1,2,3,4], vec![2,4,1,3]);
+    let res = Solution::kth_distinct(vec!["d".to_string(), "b".to_string(), "c".to_string(), "b".to_string(), "c".to_string(), "a".to_string()], 2);
     println!("{res:?}");
 }
