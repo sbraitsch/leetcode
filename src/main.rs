@@ -1,8 +1,10 @@
 #![allow(unused)]
-use structs::solution::Solution;
 mod solutions;
 mod structs;
+
+use structs::solution::Solution;
+
 fn main() {
-    let res = Solution::kth_distinct(vec!["d".to_string(), "b".to_string(), "c".to_string(), "b".to_string(), "c".to_string(), "a".to_string()], 2);
+    let res = Solution::minimum_pushes(String::from("xyzxyzxyzxyz"));
     println!("{res:?}");
 }
