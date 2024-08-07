@@ -1,10 +1,10 @@
 #![allow(unused)]
+use structs::solution::Solution;
+
 mod solutions;
 mod structs;
 
-use structs::solution::Solution;
-
 fn main() {
-    let res = Solution::minimum_pushes(String::from("xyzxyzxyzxyz"));
+    let res = Solution::number_to_words(1001);
     println!("{res:?}");
 }
